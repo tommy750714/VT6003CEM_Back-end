@@ -6,10 +6,3 @@ exports.config = {
   database: "kpaoilgq",
   connection_limit: 100
 }
-
-exports.configMongo = {
-  user: 'tommy',
-  pwd:  '1234abCD',
-  host: 'cluster0-shard-00-00.zui6f.mongodb.net',
-  dbname: 'VT6003CEM_MONGODB'
-}

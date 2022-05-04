@@ -21,6 +21,7 @@ exports.run_query = async function run_query(query, values) {
   }
 }
 
+/*
 exports.run_insert = async function run_insert(sql, values) {
   try {
     const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}:${info.config.port}/${info.config.database}`)
@@ -39,3 +40,4 @@ exports.run_insert = async function run_insert(sql, values) {
     throw 'Database query error'
   }
 }
+*/

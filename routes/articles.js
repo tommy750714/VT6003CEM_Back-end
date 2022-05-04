@@ -10,9 +10,7 @@ router.post('/', bodyParser(), validateArticle, createArticle)
 router.get('/:id([0-9]{1,})', getById)
 router.put('/:id([0-9]{1,})', updateArticle)
 router.del('/:id([0-9]{1,})', deleteArticle)
-router.get('/m', getAllM)
-router.get('/m/:id([0-9]{1,})', getByIdM)
-router.post('/m', bodyParser(), validateArticle, createArticleM)
+
 
 async function getAll(ctx, next){  
   let articles = await model.getAll()
@@ -47,31 +45,6 @@ async function updateArticle(ctx) {
 
 async function deleteArticle(ctx) {
   // TODO delete an existing article
-}
-
-async function getAllM(ctx, next){  
-  let articles = await model.getAllMongo()
-  if (articles) {
-    ctx.body = articles
-  }
-}  
-
-async function getByIdM(ctx) {
-  let id = ctx.params.id
-  console.log(id)
-  let article = await model.getByIdMongo(id)
-  if (article) {
-    ctx.body = article[0]
-  }
-}
-
-async function createArticleM(ctx) {
-  const body = ctx.request.body
-  let result = await model.addMongo(body)
-  if (result) {
-    ctx.status = 201
-    ctx.body = result
-  }
 }
 
 module.exports = router;
