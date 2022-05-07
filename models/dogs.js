@@ -9,9 +9,9 @@ exports.getAll = async () => {
 
 // Get a dog by id in the database 
 exports.getByID = async (id) => {
-  const userId = [id]
+  const dogId = [id]
   const query = 'SELECT * FROM dogs WHERE id = ?'
-  let data = await db.run_query(query, userId)
+  let data = await db.run_query(query, dogId)
   return data
 }
 
@@ -24,10 +24,10 @@ exports.getByName = async (name) => {
 }
 
 // Create a new dog in the database
-exports.createDog = async (userDetails) => {
-  let keys = Object.keys(userDetails)
+exports.createDog = async (dogBody) => {
+  let keys = Object.keys(dogBody)
   keys = keys.join(',')
-  const values = Object.values(userDetails)
+  const values = Object.values(dogBody)
   let parm = ''
   for (let i = 0; i < values.length; i++) parm += '?,'
   parm = parm.slice(0, -1)
@@ -37,23 +37,23 @@ exports.createDog = async (userDetails) => {
 }
 
 // Update the existing dog in the database
-exports.updateDog = async (id, dogDetails) => {
+exports.updateDog = async (id, dogBody) => {
   const dogId = [id]
-  let keys = Object.keys(dogDetails)
+  let keys = Object.keys(dogBody)
   keys = keys.join(' = ?,')
-  const values = Object.values(dogDetails)
+  const values = Object.values(dogBody)
   const query = `UPDATE dogs SET ${keys} = ? WHERE id = ${dogId} RETURNING *`
   const data = await db.run_query(query, values)
   return data
 }
 
-// Delete the dog by  in the databse
+// Delete the dog by id in the databse
 exports.deleteDog = async (id) => {
   const dogId = [id]
   const query = `Delete from users WHERE id = ${dogId}`
   try {
     await db.run_query(query)
-    return { status: 200 }
+    return { status: 202 }
   } catch (error) {
     return error
   }
