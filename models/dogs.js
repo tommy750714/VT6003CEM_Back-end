@@ -47,7 +47,7 @@ exports.updateDog = async (id, dogBody) => {
   return data
 }
 
-// Delete the dog by id in the databse
+// Delete the dog by id in the database
 exports.deleteDog = async (id) => {
   const dogId = [id]
   const query = `Delete from users WHERE id = ${dogId}`

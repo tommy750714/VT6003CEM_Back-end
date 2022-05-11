@@ -1,5 +1,6 @@
 const db = require('../helpers/database')
 
+// Get worker by worker id in the database
 exports.getWorkerId = async (id) => {
   const workerId = [id]
   const query = 'SELECT * FROM workers WHERE workerid = ?'
@@ -8,21 +9,21 @@ exports.getWorkerId = async (id) => {
 }
 
 // Get all workers in the database
-exports.getWorkerAll = async () => {
+exports.getAll = async () => {
   const role = ['worker']
   const query = 'SELECT * FROM users where role = ?'
   const data = await db.run_query(query, role)
   return data
 }
 
-// Get worker by ID in the database
-exports.getWorkerByID = async (id) => {
+// Get worker by user ID in the database
+exports.getByID = async (id) => {
   const userId = [id]
   const query = 'SELECT * FROM users WHERE id = ?'
   return await db.run_query(query, userId)
 }
 
-
+// Create worker in the database
 exports.createWorker = async (userBody) => {
   userBody.role = "worker"
   let keys = Object.keys(userBody)
@@ -36,6 +37,7 @@ exports.createWorker = async (userBody) => {
   return data
 }
 
+// Update worker in the database
 exports.updateWorker = async (id, userBody) => {
   const workerId = [id]
   let keys = Object.keys(userBody)
@@ -46,8 +48,8 @@ exports.updateWorker = async (id, userBody) => {
   return data
 }
 
-
-exports.deleteUser = async (id) => {
+//Delete worker in the database
+exports.deleteWorker = async (id) => {
   const workerId = [id]
   const query = `Delete from users WHERE id = ${workerId}`
   try {

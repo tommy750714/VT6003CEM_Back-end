@@ -1,16 +1,16 @@
 const Koa = require('koa')
-// const static = require('koa-static-router')
+const static = require('koa-static-router')
 
 const app = new Koa()
 
-// const special = require('./routes/special')
-// const articles = require('./routes/articles')
+const dogs = require('./routes/dogs')
 const users = require('./routes/users')
+const workers = require('./routes/workers')
 
-// app.use(special.routes())
-// pp.use(articles.routes())
+app.use(dogs.routes())
 app.use(users.routes())
-// app.use(static({dir:'docs', router: '/doc/'}))
+app.use(workers.routes())
+app.use(static({dir:'docs', router: '/doc/'}))
 
 let port = process.env.PORT || 10888;
 

@@ -2,7 +2,7 @@ const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 
 const model = require('../models/users')
-const can = require('../permission/users')
+const can = require('../permissions/users')
 const auth = require('../controllers/auth')
 
 const router = Router({prefix: '/api/v1/users'})
