@@ -5,17 +5,22 @@ const model = require('../models/users')
 const can = require('../permissions/users')
 const auth = require('../controllers/auth')
 
+const { userValidation } = require('../controllers/validation')
 const router = Router({prefix: '/api/v1/users'})
 
 const getAll = async (ctx) => {
-  const permission = can.readUserAll(ctx.state.user)
+  const permission = can.readAllUser(ctx.state.user)
   if (!permission.granted) {
     ctx.status = 403
-  } else {
-    const result = await model.getAll()
+  } 
+  try{
+    const result = await model.getAll('user')
     if (result.length) {
+      ctx.status = 200
       ctx.body = result
     }
+  } catch (error){
+    console.log(error)
   }
 }
 
@@ -24,19 +29,31 @@ const getById = async (ctx) => {
   const permission = can.readUser(ctx.state.user, parseInt(id))
   if (!permission.granted) {
     ctx.status = 403
-  } else {
-    const result = await model.getByID(id)
-    if (result.length) {
-      ctx.body = result
+    return
+  } 
+  try {
+    const result = await model.getByID(id, 'user')
+    if (!result.length) {
+      ctx.status = 404
+      return
     }
+    ctx.status = 200
+    ctx.body = result[0]
+  } catch (error){
+    console.log(error)
+    ctx.status = 400
   }
 }
 
 const createUser = async (ctx) => {
   const body = ctx.request.body
-  const result = await model.createUser(body)
-  if (result.length) {
-    ctx.body = result
+  try{
+    const result = await model.createUser(body, 'user')
+    ctx.status = 201
+    ctx.body = result[0]
+  } catch (error) {
+    ctx.status = 400
+    console.log(error)
   }
 }
 
@@ -45,12 +62,22 @@ const updateUser = async (ctx) => {
   const permission = can.updateUser(ctx.state.user, parseInt(id))
   if (!permission.granted) {
     ctx.status = 403
-  } else {
+    return
+  } 
+  try {
+    const user = await model.getById(id, 'user')
+    if (!user.length) {
+      ctx.status = 404
+      return
+    }
     const body = ctx.request.body
     const result = await model.updateUser(id, body)
-    if (result.length) {
-      ctx.body = result
-    }
+    ctx.body = result[0]
+    ctx.status = 200
+    return
+  } catch (error) {
+    console.log (error)
+    ctx.status = 400
   }
 }
 
@@ -59,29 +86,39 @@ const deleteUser = async (ctx) => {
   const permission = can.deleteUser(ctx.state.user, parseInt(id))
   if (!permission.granted) {
     ctx.status = 403
-  } else {
-    const result = await model.deleteUser(id)
-    if (result) {
-      ctx.status = result.status
-      ctx.body = { id: parseInt(id) }
+  } 
+  try {
+    const user = await model.getById(id, 'user')
+    if(!user.lenght) {
+      ctx.status = 404
+      return
     }
+    await model.deleteUser(id)
+    ctx.status = 204
+    return
+  } catch (error) {
+    console.log (error)
+    ctx.status = 400
   }
 }
 
 const login = async (ctx) => {
-  console.log('start login')
-  console.log(ctx.state.user)
-  const body = ctx.state.user
-  let result = { id: body.id, username: body.username, password: body.password, role: body.role }
-    console.log(body)
-    ctx.status = 201
-    ctx.body = result
+  console.log('Starting to login')
+  const result = { 
+    id: ctx.state.user.id,
+    username: ctx.state.user.username,
+    password: ctx.state.user.password,
+    role: ctx.state.user.role
+  }
+  ctx.status = 200
+  ctx.body = result
+  console.log ('Login Successfully')
 }
 
 router.get('/', auth, getAll)
 router.get('/:id([0-9]{1,})', auth, getById)
-router.post('/', bodyParser(), createUser)
-router.put('/:id([0-9]{1,})', bodyParser(), auth, updateUser)
+router.post('/', bodyParser(), userValidation, createUser)
+router.put('/:id([0-9]{1,})', bodyParser(), auth, userValidation, updateUser)
 router.delete('/:id([0-9]{1,})', auth, deleteUser)
 router.post('/login', auth, login)
 

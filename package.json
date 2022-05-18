@@ -1,14 +1,41 @@
 {
+  "name": "VT6003CEMBack-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
   "dependencies": {
+    "@koa/cors": "^3.3.0",
+    "bcrypt": "^5.0.1",
     "jsonschema": "^1.4.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-cors": "^0.0.16",
     "koa-passport": "^4.1.4",
     "koa-router": "^10.1.1",
     "koa-static-router": "^1.5.0",
+    "node": "^17.7.2",
     "passport-http": "^0.3.0",
     "pg": "^8.7.3",
     "role-acl": "^4.5.4",
     "sequelize": "^6.19.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommy750714/VT6003CEM_Back-end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tommy750714/VT6003CEM_Back-end/issues"
+  },
+  "homepage": "https://github.com/tommy750714/VT6003CEM_Back-end#readme"
 }

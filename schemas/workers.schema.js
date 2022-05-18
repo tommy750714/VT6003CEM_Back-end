@@ -1,50 +1,56 @@
 module.exports = {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "/user",
-  "title": "Users",
-  "description": "User of the website",
-  "type": "object",
-  "properties": {
-    "firstname": {
-      "description": "First name of the user",
-      "type": "string",
-      "maxLength": 32
+  $schema: 'http://json-schema.org/draft-04/schema#',
+  id: '/worker',
+  title: 'Workers',
+  description: 'A worker of the website',
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    firstname: {
+      description: 'First name of the worker',
+      type: 'string',
+      maxLength: 32
     },
-    "lastname": {
-      "description": "Last name of the user",
-      "type": "string",
-      "maxLength": 32
+    lastname: {
+      description: 'Last name of the worker',
+      type: 'string',
+      maxLength: 32
     },
-    "username": {
-      "description": "Username of the user for login",
-      "type": "string",
-      "maxLength": 32
+    username: {
+      description: 'Username of the worker for login',
+      type: 'string',
+      maxLength: 32
     },
-    "about": {
-      "description": "Description of the user",
-      "type": "string"
+    about: {
+      description: 'Description of the worker',
+      type: 'string'
     },
-    "password": {
-      "description": "Password of the user",
-      "type": "string",
-      "maxLength": 32
+    password: {
+      description: 'Password of the worker',
+      type: 'string',
+      maxLength: 32
     },
-    "email": {
-      "description": "E-mail of the user",
-      "type": "email",
-      "maxLength": 64
+    email: {
+      description: 'E-mail of the worker',
+      type: 'string',
+      format: 'email',
+      maxLength: 64
     },
-    "avatarurl": {
-      "description": "Avatar URL",
-      "type": "url",
-      "maxLength": 128
+    avatarurl: {
+      description: 'Avatar URL',
+      format:'string',
+      type: 'url',
+      maxLength: 128
     },
-    "workerid": {
-      "description": "Worker ID of the user",
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 9999
+    workerid: {
+      description: 'Worker ID of the worker',
+      type: 'integer',
+      minimum: 0,
     }
   },
-  "required": ["username", "email", "password"]
+  required: ['username',
+             'password',
+             'email',
+             'workerid'
+            ]
 }

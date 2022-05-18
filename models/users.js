@@ -1,34 +1,45 @@
 const db = require('../helpers/database')
+const bcrypt = require('bcrypt')
 
 
 
 // Get all the users in the database
-exports.getAll = async function getAll () {
-  const query = "select * FROM users;"
-  const data = await db.run_query(query)  
+exports.getAll = async (role) => {
+  const value = [role]
+  const query = 'select * FROM users WHERE role = ?'
+  const data = await db.run_query(query, value)  
   return data
 }
 
 // Get a user by id in the database
 exports.getByID = async (id) => {
-  const userId = [id]
-  const query = 'SELECT * FROM users WHERE id = ?'
-  const data = await db.run_query(query, userId)
+  const query = `SELECT * FROM users WHERE id = ${id} AND role = '${role}'`
+  const data = await db.run_query(query)
   return data
 }
 
-// Get a user by name in the database
-exports.findByUsername = async function getByUsername(username) {
+// Get worker by worker id in the database
+exports.getByWorkerId = async (workerId) => {
+  const query = `SELECT * FROM users WHERE workerid = ${workerId}`
+  const data = await db.run_query(query)
+  return data
+}
+
+// Get a user by username in the database
+exports.findByUsername = async (username) => {
+  const value = [username]
   const query = 'select * from users where username = ?'
-  const user = await db.run_query(query, [username])
-  return user
+  const data = await db.run_query(query, value)
+  return data
 }
 
 // Create User
-exports.createUser = async (userBody) => {
-  let keys = Object.keys(userBody)
+exports.createUser = async (body, role) => {
+  body.role = role
+  body.password = await bcrypt.hash(body.password, saltRounds)
+  let keys = Object.keys(body)
   keys = keys.join(',')
-  const values = Object.values(userBody)
+  const values = Object.values(body)
   let parm = ''
   for (let i = 0; i < values.length; i++) parm += '?,'
   parm = parm.slice(0, -1)
@@ -40,6 +51,7 @@ exports.createUser = async (userBody) => {
 // Update User
 exports.updateUser = async (id, userBody) => {
   const userId = [id]
+  body.password = await bcrypt.hash(body.password, saltRounds)
   let keys = Object.keys(userBody)
   keys = keys.join(' = ?,')
   const values = Object.values(userBody)

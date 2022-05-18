@@ -5,6 +5,7 @@ const userSchema = require('../schemas/users.schema.js')
 
 const v = new Validator()
 
+
 exports.dogValidation = async (ctx, next) => {
   console.log('Start the dog schema validation')
   const validationOptions = {

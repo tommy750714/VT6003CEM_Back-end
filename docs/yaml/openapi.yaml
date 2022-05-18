@@ -1,73 +1,316 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Back End Demonstration API
-  description: A simple blog API.
+  title: Dog API 
+  description: API for the dog website.
   contact:
-    name: Tommy Cheng
-    email: tommychengka@gmail.com
+    name: Cheng Ka Yeung
+    email: 217010632@stu.vtc.edu.hk
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'https://VT6003CEMBack-end.chengka.repl.co'
+  - url: 'https://https://vt6003cemback-end.chengka.repl.co/api/v1/'
     description: Development server
 tags:
+  - name: Dogs
+    description: Access and perform CRUD operations on dogs entries.
   - name: Users
     description: API endpoints for user management.
-  - name: Articles
-    description: Access and perform CRUD operations on blog entries.
+  - name: Workers
+    description: API endpoints for worker management.
 paths:
-  /articles/{id}:
+  /dogs/:
+    get: 
+      tags:
+        - Dogs
+      description:
+        Get all Dogs.
+      responses:
+        '200':
+          description: Get all dogs record.
+        '400':
+          description: Data or syntax error.
+    post: 
+      tags:
+        - Dogs
+      description: 
+        Create new dog.
+      requestBody:
+          description: All new dog record
+          require: true
+          content:
+            application/json:
+              schema:
+                $ref: ./dogs.json#/definitions/dogs
+      responses:
+          '201':
+            description: A new dog record has been created.
+          '400':
+            description: Data or syntax error.
+          '403':
+            description: No permission to create a dog record.
+  /dogs/{id}:
     parameters:
       - in: path
         name: id
         schema:
           type: integer
         required: true
-        description: Numeric id of the articles
-    get:
+        description: Numeric id of the dog
+    get: 
       tags:
-        - Articles
+        - Dogs
       description:
-        Get articles by id.
+        Get dogs by ID.
       responses:
         '200':
-          description: View of articles 
-        '404':
-          description: Articles was not found in the DB.
-    post:
+          description: Get a dog record.
+        '400':
+          description: Data or syntax error.
+          '404':
+        description: The dog record was not found in the database.
+    put:
       tags:
-        - Articles
+        - Dogs
       description:
-        Create a new article.
+        Update dog by ID.
       requestBody:
-        description: All new article data.
-        required: true
+        description: All new dog data
+        require: true
         content:
           application/json:
             schema:
-              $ref: ./article.json#/definitions/article
-      responses:
-        '201':
-          description: User created
-
-    put:
-      tags:
-        - Articles
-      description: Update articles by ID.
+              $ref: ./dogs.json#/definitions/dogs
       responses:
         '200':
-          description: Update confirmation and link to record.
+          description: The dog record has been updated .
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the dog.
         '404':
-          description: Articles was not found in the DB.
+          description: The dog record was not found in the database..
     delete:
       tags:
-        - Articles
-      description: Delete articles by ID.
-    responses:
-        '200':
-          description: Delete confirmation.
+        - Dogs
+      description:
+        Delete dog by ID.
+      responses:
+        '204':
+          description: The dog record has been deleted.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to delete the dog record.
         '404':
-          description: Articles was not found in the DB.
+          description: The dog record was not found in the database..
 
+  /users/:
+    get: 
+      tags:
+        - Users
+      description:
+        Get all users.
+      responses:
+        '200':
+          description: Get all users record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get all users record.
+    post: 
+      tags:
+        - Users
+      description:
+        Create new user.
+      requestBody:
+        description: All new user data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
+      responses:
+        '201':
+          description: A new user has been created.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: Cannot authorize the requester.
+        '403':
+          description: No permission to create user record.
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the user
+    get: 
+      tags:
+        - Users
+      description:
+        Get user by ID.
+      responses:
+        '200':
+          description: Get a user record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get the user.
+        '404':
+          description: The user record was not find in the database.
+    put:
+      tags:
+        - Users
+      description:
+        Update user by ID.
+      requestBody:
+        description: All update user data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
+      responses:
+        '200':
+          description: The user record has been updated.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the user.
+        '404':
+          description: The user record was not find in the database.
+    delete:
+      tags:
+        - Users
+      description:
+        Delete user by ID.
+      responses:
+        '204':
+          description: The user record has been deleted.    
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: Not authorization to delete the user.
+        '404':
+          description: The user record was not find in the database.
+  /users/login:
+    post: 
+      tags:
+        - Users
+      description:
+        User login.
+      responses:
+        '200':
+          description: Login successfully.
+        '401':
+          description: cannot authorize the requester.
+  
+  /workers/:
+    get: 
+      tags:
+        - Workers
+      description:
+        Get all workers.
+      responses:
+        '200':
+          description: Get all workers record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get all workers.
+    post: 
+      tags:
+        - Workers
+      description:
+        Create new worker.
+      requestBody:
+        description: All new worker data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./workers.json#/definitions/workers
+      responses:
+        '201':
+          description: A new worker record has been created.
+        '400':
+          description: Data or syntax error.
+        '403':
+          description: No permission to create worker.
+  /workers/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the worker
+    get: 
+      tags:
+        - Workers
+      description:
+        Get worker by ID.
+      responses:
+        '200':
+          description: Get a worker record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get the worker.
+        '404':
+          description: The worker was not find in the database.
+    put:
+      tags:
+        - Workers
+      description:
+        Update worker by ID.
+      requestBody:
+        description: All new worker data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./workers.json#/definitions/workers
+      responses:
+        '200':
+          description: The worker record has been updated.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the worker.
+        '404':
+          description: The worker was not find in the database.
+    delete:
+      tags:
+        - Workers
+      description:
+        Delete worker by ID.
+      responses:
+        '204':
+          description: The worker record has been deleted.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: Not authorization to delete the worker.
+        '404':
+          description: Cannot find the worker.

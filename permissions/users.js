@@ -17,7 +17,7 @@ ac.grant('worker').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } })
 
 exports.readUser = (requester, id) => ac.can(requester.role).context({ requester: requester.id, owner: id }).execute('read').sync().on('user')
 
-exports.readUserAll = (requester) => ac.can(requester.role).execute('read').sync().on('users')
+exports.readAllUser = (requester) => ac.can(requester.role).execute('read').sync().on('users')
 
 exports.updateUser = (requester, id) => ac.can(requester.role).context({ requester: requester.id, owner: id }).execute('update').sync().on('user')
 
