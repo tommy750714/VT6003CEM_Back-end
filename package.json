@@ -10,6 +10,7 @@
   "dependencies": {
     "@koa/cors": "^3.3.0",
     "bcrypt": "^5.0.1",
+    "eslint": "^8.16.0",
     "jsonschema": "^1.4.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
@@ -21,7 +22,8 @@
     "passport-http": "^0.3.0",
     "pg": "^8.7.3",
     "role-acl": "^4.5.4",
-    "sequelize": "^6.19.0"
+    "sequelize": "^6.19.0",
+    "supertest": "^6.2.3"
   },
   "devDependencies": {},
   "scripts": {

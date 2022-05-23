@@ -77,7 +77,7 @@ const updateWorker = async (ctx) => {
     const body = ctx.request.body
     const result = await model.updateUser(id, body)
     ctx.body = result[0]
-    CTX.status = 200
+    ctx.status = 200
     return
   } catch (error) {
     console.log(error)

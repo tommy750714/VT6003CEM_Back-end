@@ -50,7 +50,7 @@ exports.updateDog = async (id, dogBody) => {
 // Delete the dog by id in the database
 exports.deleteDog = async (id) => {
   const dogId = [id]
-  const query = `Delete from users WHERE id = ${dogId}`
+  const query = `Delete from dogs WHERE id = ${dogId}`
   try {
     await db.run_query(query)
     return { status: 202 }

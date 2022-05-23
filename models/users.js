@@ -1,5 +1,6 @@
 const db = require('../helpers/database')
 const bcrypt = require('bcrypt')
+const { saltRounds } = require('../config.js')
 
 
 
@@ -12,18 +13,12 @@ exports.getAll = async (role) => {
 }
 
 // Get a user by id in the database
-exports.getByID = async (id) => {
+exports.getByID = async (id, role) => {
   const query = `SELECT * FROM users WHERE id = ${id} AND role = '${role}'`
   const data = await db.run_query(query)
   return data
 }
 
-// Get worker by worker id in the database
-exports.getByWorkerId = async (workerId) => {
-  const query = `SELECT * FROM users WHERE workerid = ${workerId}`
-  const data = await db.run_query(query)
-  return data
-}
 
 // Get a user by username in the database
 exports.findByUsername = async (username) => {
@@ -49,12 +44,12 @@ exports.createUser = async (body, role) => {
 }
 
 // Update User
-exports.updateUser = async (id, userBody) => {
+exports.updateUser = async (id, body) => {
   const userId = [id]
   body.password = await bcrypt.hash(body.password, saltRounds)
-  let keys = Object.keys(userBody)
+  let keys = Object.keys(body)
   keys = keys.join(' = ?,')
-  const values = Object.values(userBody)
+  const values = Object.values(body)
   const query = `UPDATE users SET ${keys} = ? WHERE id = ${userId} RETURNING *`
   const data = await db.run_query(query, values)
   return data

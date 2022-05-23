@@ -1,9 +1,11 @@
 const BasicStrategy = require('passport-http').BasicStrategy
+const bcrypt = require('bcrypt')
 const users = require('../models/users')
 
-const verifyPassword = function (user, password) {
-  // compare user.password with the password supplied
-  return user.password === password
+const verifyPassword = (user, password) => {
+  
+  const match = bcrypt.compare(password, user.password)
+  return match
 }
 
 const checkUserAndPass = async (username, password, done) => {

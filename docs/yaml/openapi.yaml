@@ -10,7 +10,7 @@ info:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'https://https://vt6003cemback-end.chengka.repl.co/api/v1/'
+  - url: 'https://vt6003cemback-end.chengka.repl.co/api/v1/'
     description: Development server
 tags:
   - name: Dogs

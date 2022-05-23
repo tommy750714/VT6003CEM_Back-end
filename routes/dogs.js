@@ -73,6 +73,7 @@ const updateDog = async (ctx) => {
   }
 
 const deleteDog = async (ctx) => {
+  console.log('Processing deleteDog Route')
   const permission = can.deleteDog(ctx.state.user)
   if (!permission.granted) {
     ctx.status = 403
